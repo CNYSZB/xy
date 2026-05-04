@@ -79,7 +79,7 @@
 <div id="content">
 Dchat 用户免责声明与使用条款
 
-版本：2026.05.04
+版本：v2
 最后更新：2026年5月4日
 
 ---
@@ -327,7 +327,8 @@ Dchat 用户免责声明与使用条款
 </div>
 
 <script>
-const AGREEMENT_VERSION = '2'; // 这里来更改版本号
+// 这里来更改版本号
+const AGREEMENT_VERSION = '2';
 
 let isForceMode = true;
 
@@ -363,6 +364,31 @@ window.addEventListener('message', function(e) {
     if (!isForceMode) {
       btn.textContent = '关闭';
       btn.classList.add('active');
+    }
+  }
+  if (e.data && e.data.type === 'setTheme') {
+    if (e.data.theme === 'light') {
+      document.body.style.background = '#f5f5f7';
+      document.body.style.color = '#1c1c1e';
+      document.getElementById('title').style.color = '#1c1c1e';
+      document.getElementById('title').style.borderColor = '#d1d1d6';
+      document.getElementById('content').style.color = '#3a3a3c';
+      document.getElementById('buttons').style.background = '#f5f5f7';
+      document.getElementById('buttons').style.borderColor = '#d1d1d6';
+      document.getElementById('btnDisagree').style.background = '#e9e9eb';
+      document.getElementById('btnDisagree').style.color = '#6e6e73';
+      document.getElementById('btnDisagree').style.borderColor = '#d1d1d6';
+    } else {
+      document.body.style.background = '#14161a';
+      document.body.style.color = '#b0b0b8';
+      document.getElementById('title').style.color = '#f0f0f5';
+      document.getElementById('title').style.borderColor = '#2a2c33';
+      document.getElementById('content').style.color = '#b0b0b8';
+      document.getElementById('buttons').style.background = '#14161a';
+      document.getElementById('buttons').style.borderColor = '#2a2c33';
+      document.getElementById('btnDisagree').style.background = '#1a1c22';
+      document.getElementById('btnDisagree').style.color = '#9898a0';
+      document.getElementById('btnDisagree').style.borderColor = '#2a2c33';
     }
   }
 });
