@@ -33,6 +33,7 @@
     padding: 16px 20px;
     font-size: 13px;
     line-height: 1.8;
+    white-space: pre-wrap;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -326,11 +327,10 @@ Dchat 用户免责声明与使用条款
 </div>
 
 <script>
-const AGREEMENT_VERSION = '1'; // 改协议后记得改这个版本号
+const AGREEMENT_VERSION = '2'; // 这里来更改版本号
 
 let isForceMode = true;
 
-// 滚动检测
 document.getElementById('content').addEventListener('scroll', function() {
   if (!isForceMode) return;
   const el = this;
@@ -346,10 +346,8 @@ function agreeOrClose() {
     const el = document.getElementById('content');
     const reached = el.scrollHeight - el.scrollTop - el.clientHeight < 2;
     if (!reached) return;
-    // 通知主代码：用户同意了，把版本号传过去
     window.parent.postMessage({ type: 'agreementAccepted', version: AGREEMENT_VERSION }, '*');
   } else {
-    // 查看模式：直接关闭
     window.parent.postMessage({ type: 'agreementClosed' }, '*');
   }
 }
@@ -358,13 +356,11 @@ function disagree() {
   window.parent.postMessage({ type: 'agreementRejected' }, '*');
 }
 
-// 接收主代码发来的模式设置
 window.addEventListener('message', function(e) {
   if (e.data && e.data.type === 'setAgreementMode') {
     isForceMode = e.data.force;
     const btn = document.getElementById('btnAgree');
     if (!isForceMode) {
-      // 查看模式
       btn.textContent = '关闭';
       btn.classList.add('active');
     }
