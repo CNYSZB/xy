@@ -37,6 +37,21 @@
     -webkit-overflow-scrolling: touch;
   }
 
+  #themeToggleBox {
+    text-align: center;
+    padding: 8px 0;
+    flex-shrink: 0;
+  }
+  #themeToggleBtn {
+    background: #1a3a5c;
+    color: #fff;
+    border: 1px solid #2a2c33;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
   #buttons {
     padding: 12px 20px 20px;
     display: flex;
@@ -321,6 +336,10 @@ Dchat 用户免责声明与使用条款
     
 </div>
 
+<div id="themeToggleBox">
+  <button id="themeToggleBtn" onclick="toggleTheme()">切换为浅色</button>
+</div>
+
 <div id="buttons">
   <button id="btnDisagree" onclick="disagree()">我不同意</button>
   <button id="btnAgree" onclick="agreeOrClose()">我同意并使用</button>
@@ -328,9 +347,10 @@ Dchat 用户免责声明与使用条款
 
 <script>
 // 这里来更改版本号
-const AGREEMENT_VERSION = '2';
+const AGREEMENT_VERSION = '3';
 
 let isForceMode = true;
+let currentTheme = 'dark';
 
 document.getElementById('content').addEventListener('scroll', function() {
   if (!isForceMode) return;
@@ -341,6 +361,45 @@ document.getElementById('content').addEventListener('scroll', function() {
     btn.classList.add('active');
   }
 });
+
+function toggleTheme() {
+  const btn = document.getElementById('themeToggleBtn');
+  if (currentTheme === 'dark') {
+    currentTheme = 'light';
+    document.body.style.background = '#f5f5f7';
+    document.body.style.color = '#1c1c1e';
+    document.getElementById('title').style.color = '#1c1c1e';
+    document.getElementById('title').style.borderColor = '#d1d1d6';
+    document.getElementById('content').style.color = '#3a3a3c';
+    document.getElementById('themeToggleBox').style.background = '#f5f5f7';
+    document.getElementById('themeToggleBtn').style.background = '#e8f2fd';
+    document.getElementById('themeToggleBtn').style.color = '#1c1c1e';
+    document.getElementById('themeToggleBtn').style.borderColor = '#d1d1d6';
+    document.getElementById('buttons').style.background = '#f5f5f7';
+    document.getElementById('buttons').style.borderColor = '#d1d1d6';
+    document.getElementById('btnDisagree').style.background = '#e9e9eb';
+    document.getElementById('btnDisagree').style.color = '#6e6e73';
+    document.getElementById('btnDisagree').style.borderColor = '#d1d1d6';
+    btn.textContent = '切换为暗色';
+  } else {
+    currentTheme = 'dark';
+    document.body.style.background = '#14161a';
+    document.body.style.color = '#b0b0b8';
+    document.getElementById('title').style.color = '#f0f0f5';
+    document.getElementById('title').style.borderColor = '#2a2c33';
+    document.getElementById('content').style.color = '#b0b0b8';
+    document.getElementById('themeToggleBox').style.background = 'transparent';
+    document.getElementById('themeToggleBtn').style.background = '#1a3a5c';
+    document.getElementById('themeToggleBtn').style.color = '#fff';
+    document.getElementById('themeToggleBtn').style.borderColor = '#2a2c33';
+    document.getElementById('buttons').style.background = '#14161a';
+    document.getElementById('buttons').style.borderColor = '#2a2c33';
+    document.getElementById('btnDisagree').style.background = '#1a1c22';
+    document.getElementById('btnDisagree').style.color = '#9898a0';
+    document.getElementById('btnDisagree').style.borderColor = '#2a2c33';
+    btn.textContent = '切换为浅色';
+  }
+}
 
 function agreeOrClose() {
   if (isForceMode) {
@@ -364,31 +423,6 @@ window.addEventListener('message', function(e) {
     if (!isForceMode) {
       btn.textContent = '关闭';
       btn.classList.add('active');
-    }
-  }
-  if (e.data && e.data.type === 'themeChange') {
-    if (e.data.theme === 'light') {
-      document.body.style.background = '#f5f5f7';
-      document.body.style.color = '#1c1c1e';
-      document.getElementById('title').style.color = '#1c1c1e';
-      document.getElementById('title').style.borderColor = '#d1d1d6';
-      document.getElementById('content').style.color = '#3a3a3c';
-      document.getElementById('buttons').style.background = '#f5f5f7';
-      document.getElementById('buttons').style.borderColor = '#d1d1d6';
-      document.getElementById('btnDisagree').style.background = '#e9e9eb';
-      document.getElementById('btnDisagree').style.color = '#6e6e73';
-      document.getElementById('btnDisagree').style.borderColor = '#d1d1d6';
-    } else {
-      document.body.style.background = '#14161a';
-      document.body.style.color = '#b0b0b8';
-      document.getElementById('title').style.color = '#f0f0f5';
-      document.getElementById('title').style.borderColor = '#2a2c33';
-      document.getElementById('content').style.color = '#b0b0b8';
-      document.getElementById('buttons').style.background = '#14161a';
-      document.getElementById('buttons').style.borderColor = '#2a2c33';
-      document.getElementById('btnDisagree').style.background = '#1a1c22';
-      document.getElementById('btnDisagree').style.color = '#9898a0';
-      document.getElementById('btnDisagree').style.borderColor = '#2a2c33';
     }
   }
 });
