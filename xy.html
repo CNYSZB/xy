@@ -342,14 +342,26 @@ document.getElementById('content').addEventListener('scroll', function() {
   }
 });
 
-function agreeOrClose() {
-  if (isForceMode) {
-    const el = document.getElementById('content');
-    const reached = el.scrollHeight - el.scrollTop - el.clientHeight < 2;
-    if (!reached) return;
-    window.parent.postMessage({ type: 'agreementAccepted', version: AGREEMENT_VERSION }, '*');
+function applyTheme() {
+  if (config.lightMode) {
+    document.body.classList.add('light-mode');
   } else {
-    window.parent.postMessage({ type: 'agreementClosed' }, '*');
+    document.body.classList.remove('light-mode');
+  }
+  const noticeIframe = document.getElementById('noticeIframe');
+  if (noticeIframe && noticeIframe.contentWindow) {
+    noticeIframe.contentWindow.postMessage({
+      type: 'themeChange',
+      theme: config.lightMode ? 'light' : 'dark'
+    }, '*');
+  }
+  // 下面这行就是你要加的
+  const agreementIframe = document.getElementById('agreementIframe');
+  if (agreementIframe && agreementIframe.contentWindow) {
+    agreementIframe.contentWindow.postMessage({
+      type: 'themeChange',
+      theme: config.lightMode ? 'light' : 'dark'
+    }, '*');
   }
 }
 
